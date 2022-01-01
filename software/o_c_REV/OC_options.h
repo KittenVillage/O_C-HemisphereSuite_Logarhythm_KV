@@ -24,5 +24,11 @@
 /* ------------ use DAC8564 -------------------------------------------------------------------------  */
 //#define DAC8564
 
+
+/* ------------ Hemisphere suite: Logarhythm Mod: ---------------------------------------------------  */
+// Define this to include some new, custom scales for Hemispheres Logarhythm Mod (optional if porting individual applets)
+// This uses approximately 640 additional bytes of program storage space
+#define HEM_LOGARHYTHM_MOD_SCALES
+
 #endif
 

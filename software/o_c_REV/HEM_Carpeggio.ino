@@ -36,6 +36,7 @@ public:
         replay = 0;
         transpose = 0;
         ImprintChord(2);
+        pitch_out_for_step();
     }
 
     void Controller() {
@@ -53,8 +54,8 @@ public:
                 step = (y * 4) + x;
                 pitch_out_for_step();
             } else {
-                pitch_out_for_step();
                 if (++step > 15) step = 0;
+                pitch_out_for_step();
             }
             replay = 0;
         } else if (replay) {
@@ -85,7 +86,7 @@ public:
             cursor = 0; // Don't advance cursor when chord is changed
             ImprintChord(chord);
         }
-        if (++cursor > 2) cursor = 0;
+        if (++cursor > 3) cursor = 0;
         ResetCursor();
     }
 
@@ -93,6 +94,14 @@ public:
         if (cursor == 0) sequence[step] = constrain(sequence[step] += direction, -24, 60);
         if (cursor == 1) chord = constrain(chord += direction, 0, Nr_of_arp_chords - 1);
         if (cursor == 2) transpose = constrain(transpose += direction, -24, 24);
+        if (cursor == 3) {
+            if (shuffle && direction < 0) {
+                ImprintChord(sel_chord);
+            }
+            if (direction > 0) {
+                ShuffleChord();
+            }
+        }
         if (cursor != 1) replay = 1;
     }
         
@@ -130,6 +139,7 @@ private:
     int chord; // Selected chord
     int sel_chord; // Most recently-imprinted chord
     int transpose; // Transposition setting (-24 ~ +24)
+    bool shuffle = false;
 
     // Variables to handle imprint confirmation animation
     int confirm_animation_countdown;
@@ -148,6 +158,12 @@ private:
         gfxPrint(transpose < 0 ? "" : "+");
         gfxPrint(transpose);
         if (cursor == 2) gfxCursor(32, 33, 30);
+
+        // Shuffle selector
+        gfxBitmap(37, 36, 8, PLAY_ICON);
+        gfxBitmap(49, 36, 8, LOOP_ICON);
+        gfxInvert(36 + (shuffle ? 12 : 0), 35, 10, 10);
+        if (cursor == 3) gfxCursor(37, 46, 20);
 
         // Note name editor
         uint8_t midi_note = constrain(sequence[step] + 36 + transpose, 0, 127);
@@ -188,6 +204,22 @@ private:
         chord = new_chord;
         confirm_animation_position = 16;
         confirm_animation_countdown = HEM_CARPEGGIO_ANIMATION_SPEED;
+        shuffle = false;
+    }
+
+    void ShuffleChord() {
+        int16_t old; // temp var for note being swapped
+        int16_t rnd; // temp var for index of note swapping in
+        for (int i = 0; i < 16; i++) {
+            // set old to current step value
+            old = sequence[i];
+            rnd = random(0, 16);
+            sequence[i] = sequence[rnd];
+            sequence[rnd] = old;
+        }
+        confirm_animation_position = 16;
+        confirm_animation_countdown = HEM_CARPEGGIO_ANIMATION_SPEED;
+        shuffle = true;
     }
 
     void pitch_out_for_step() {

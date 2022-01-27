@@ -54,13 +54,13 @@ public:
 //                int32_t shift_alt = (ch == 1) ? DetentedIn(1) : Gate(1) * (12 << 7);
 //                int32_t quantized = quantizer.Process(pitch, 0, shift[ch]);
 //                Out(ch, quantized + shift_alt);
+
 // From ProdRocket on Modwiggler
 //  quantize AFTER transposition
                   int32_t shift_alt = (ch == 1) ? quantizer.Process(In(1), 0, 0) : Gate(1) * (12 << 7);
+
                   int32_t quantized = quantizer.Process(pitch + shift_alt, 0, shift[ch]);
                   Out(ch, quantized);
-
-
                 last_note[ch] = quantized;
             }
         }

@@ -40,8 +40,6 @@ class TB_3PO : public HemisphereApplet
 {
   public:
 
-    const uint8_t RANDOM_ICON[8] = {0x7c,0x82,0x8a,0x82,0xa2,0x82,0x7c,0x00};  // A die showing '2'
-
     const char* applet_name() { // Maximum 10 characters
         return "TB-3PO";
     }

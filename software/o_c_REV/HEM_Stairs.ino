@@ -34,7 +34,6 @@ public:
 
     // Icons made with http://beigemaze.com/bitmap8x8.html  (Thanks for making this public!)
     const uint8_t STAIRS_ICON[8] = {0x00,0x20,0x20,0x38,0x08,0x0e,0x02,0x02};  // Some stairs going up
-    const uint8_t RANDOM_ICON[8] = {0x7c,0x82,0x8a,0x82,0xa2,0x82,0x7c,0x00};  // A die showing '2'
 
     const char* applet_name() {
         return "Stairs";

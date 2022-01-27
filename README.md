@@ -1,4 +1,13 @@
+Fork note:
+
+This is a version I've compiled together incorporating the latest Hemi, Loga and Beni versions for my own use. 
+
+Currently uncompiled (but has compiled under Smallest setting compile option.)
+
+
+
 Hemisphere Suite: Alternate Alternate Firmware for Ornament and Crime
+ - Logarhythm Branch
 ===
 
 ![My image](https://farm1.staticflickr.com/676/20090774694_b56e557693_b.jpg)
